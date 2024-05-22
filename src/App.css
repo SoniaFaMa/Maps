@@ -1,0 +1,41 @@
+.table {
+  width: 100%;
+  border-spacing: 0;
+  margin-bottom: 10px;
+  font-family: Arial, sans-serif;
+  background-color: #fff; 
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  margin-top: 40px;
+ 
+
+  
+}
+
+.table th, .table td {
+  padding: 3px; 
+  border: 1px solid #ddd;
+  
+}
+
+.table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase; 
+  
+}
+
+.table td {
+  text-align: center;
+  
+  
+}
+
+.image {
+  border-radius: 50%; 
+ 
+}
+tr{
+  cursor: pointer;
+}
