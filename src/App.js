@@ -17,6 +17,8 @@ function App() {
 
   const handleClick = (elemento) => {
     setSelectedUser(elemento);
+    console.log(elemento.latitude)
+    console.log(elemento.longitude)
   };
 
   return (

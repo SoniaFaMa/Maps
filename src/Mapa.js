@@ -12,7 +12,7 @@ const markers = [
 function Mapa({ selectedUser }) {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBjPd6r_7W8iKsTg7Wafs8ZgzzUajOY2U4",
+    googleMapsApiKey: "AIzaSyBjPd6r_7W8iKsTg7wafs8ZgzzUajOY2U4",
   });
 
   const [activeMarker, setActiveMarker] = useState(null);
