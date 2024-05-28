@@ -1,13 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from "@react-google-maps/api";
-
-const markers = [
-  {
-    id: 1,
-    name: "Amatista",
-    position: { lat: 41.3898009, lng: 2.1417399 }
-  }
-];
 
 function Mapa({ selectedUser }) {
   const { isLoaded } = useJsApiLoader({
@@ -16,6 +8,19 @@ function Mapa({ selectedUser }) {
   });
 
   const [activeMarker, setActiveMarker] = useState(null);
+  const [markerPosition, setMarkerPosition] = useState(null);
+
+  useEffect(() => {
+    // Actualizar la posición del marcador cuando se selecciona un usuario
+    if (selectedUser) {
+      const lat = parseFloat(selectedUser.latitude);
+      const lng = parseFloat(selectedUser.longitude);
+      setMarkerPosition({
+        lat,
+        lng
+      });
+    }
+  }, [selectedUser]);
 
   const handleActiveMarker = (marker) => {
     if (marker === activeMarker) {
@@ -25,34 +30,23 @@ function Mapa({ selectedUser }) {
   };
 
   const handleOnLoad = (map) => {
-    const bounds = new window.google.maps.LatLngBounds();
-    markers.forEach(({ position }) => bounds.extend(position));
-    map.fitBounds(bounds);
+    if (markerPosition) {
+      // Ajustar el mapa al tamaño del marcador solo si hay una posición válida
+      const bounds = new window.google.maps.LatLngBounds();
+      bounds.extend(markerPosition);
+      map.fitBounds(bounds);
+    }
   };
 
   return isLoaded ? (
     <GoogleMap
       onLoad={handleOnLoad}
-      onClick={() => setActiveMarker(null)}
       mapContainerStyle={{ width: "50vw", height: "50vh" }}
     >
-      {markers.map(({ id, name, position }) => (
+      {/* Mostrar el marcador solo si la posición es válida */}
+      {markerPosition && (
         <Marker
-          key={id}
-          position={position}
-          onClick={() => handleActiveMarker(id)}
-        >
-          {activeMarker === id && (
-            <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-              <div>{name}</div>
-            </InfoWindow>
-          )}
-        </Marker>
-      ))}
-      
-      {selectedUser && (
-        <Marker
-          position={{ lat: selectedUser.latitude, lng: selectedUser.longitude }}
+          position={markerPosition}
           onClick={() => handleActiveMarker(selectedUser.id)}
         >
           {activeMarker === selectedUser.id && (
