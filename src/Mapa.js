@@ -2,20 +2,17 @@ import React, { useState } from "react";
 import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 const markers = [
-    {
-      id: 1,
-      name: "Amatista",
-      position: { lat: 41.3898009, lng: 2.1417399 }
-    }
-    
-  ];
+  {
+    id: 1,
+    name: "Amatista",
+    position: { lat: 41.3898009, lng: 2.1417399 }
+  }
+];
 
-function Map() {
-
-    
+function Mapa({ selectedUser }) {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBjPd6r_7W8iKsTg7wafs8ZgzzUajOY2U4",
+    googleMapsApiKey: "AIzaSyBjPd6r_7W8iKsTg7Wafs8ZgzzUajOY2U4",
   });
 
   const [activeMarker, setActiveMarker] = useState(null);
@@ -52,10 +49,21 @@ function Map() {
           )}
         </Marker>
       ))}
+      
+      {selectedUser && (
+        <Marker
+          position={{ lat: selectedUser.latitude, lng: selectedUser.longitude }}
+          onClick={() => handleActiveMarker(selectedUser.id)}
+        >
+          {activeMarker === selectedUser.id && (
+            <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+              <div>{selectedUser.name}</div>
+            </InfoWindow>
+          )}
+        </Marker>
+      )}
     </GoogleMap>
-  ) : (
-    <></>
-  );
+  ) : <></>;
 }
 
-export default Map;
+export default Mapa;
