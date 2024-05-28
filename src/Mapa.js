@@ -11,14 +11,10 @@ function Mapa({ selectedUser }) {
   const [markerPosition, setMarkerPosition] = useState(null);
 
   useEffect(() => {
-    // Actualizar la posición del marcador cuando se selecciona un usuario
     if (selectedUser) {
       const lat = parseFloat(selectedUser.latitude);
       const lng = parseFloat(selectedUser.longitude);
-      setMarkerPosition({
-        lat,
-        lng
-      });
+      setMarkerPosition({ lat, lng });
     }
   }, [selectedUser]);
 
@@ -31,7 +27,6 @@ function Mapa({ selectedUser }) {
 
   const handleOnLoad = (map) => {
     if (markerPosition) {
-      // Ajustar el mapa al tamaño del marcador solo si hay una posición válida
       const bounds = new window.google.maps.LatLngBounds();
       bounds.extend(markerPosition);
       map.fitBounds(bounds);
@@ -43,7 +38,6 @@ function Mapa({ selectedUser }) {
       onLoad={handleOnLoad}
       mapContainerStyle={{ width: "50vw", height: "50vh" }}
     >
-      {/* Mostrar el marcador solo si la posición es válida */}
       {markerPosition && (
         <Marker
           position={markerPosition}
